@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                                                         %%
-%%  Matlab programında Resim okunması ve görüntülenmesi    %%
+%%  Matlab programÄ±nda Resim okunmasÄ± ve gÃ¶rÃ¼ntÃ¼lenmesi    %%
 %%                                                         %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -9,8 +9,8 @@ kelime_uzunlugu=8;   % 8-bit/decimal number
 L=kelime_uzunlugu-1:-1:0;
 L=pow2(L); 
 [A,map]=imread('autonom.jpg','jpg');
-subplot(1,2,1); image(A); %axis equal tight;  % okunan dosyayi görüntüle
-title('Gönderilen Resim')
+subplot(1,2,1); image(A); %axis equal tight;  % okunan dosyayi gÃ¶rÃ¼ntÃ¼le
+title('GÃ¶nderilen Resim')
 dumy=[];
 [m,n,q]=size(A);
 
@@ -18,18 +18,18 @@ for k=1:q,
 for j=1:n,
     x=A(:,j,k);
     x=double(x);
-    d=dec2bin(x,kelime_uzunlugu);   % okunan görüntü dosyasini binary diziye dönüstür
-    d=1*d-48; % string den integer array formuna dönüsüm
+    d=dec2bin(x,kelime_uzunlugu);   % okunan gÃ¶rÃ¼ntÃ¼ dosyasini binary diziye dÃ¶nÃ¼stÃ¼r
+    d=1*d-48; % string den integer array formuna dÃ¶nÃ¼sÃ¼m
     [m1,n1]=size(d);
-    d_array1(j,k,:)=reshape(d,1,m1*n1); % Resmin bir kısmı bir diziye dönüştürüldü
+    d_array1(j,k,:)=reshape(d,1,m1*n1); % Resmin bir kÄ±smÄ± bir diziye dÃ¶nÃ¼ÅŸtÃ¼rÃ¼ldÃ¼
 end
 end
-d_array=reshape(d_array1,[1,6000*1812]); % Resim bir vektöre dönüştürüldü
+d_array=reshape(d_array1,[1,6000*1812]); % Resim bir vektÃ¶re dÃ¶nÃ¼ÅŸtÃ¼rÃ¼ldÃ¼
     
-% Farksal manchester hat kodlamsıyla kodlayalım
-dm_array(1)=1;          % dm_array adında yeni dizi tanımlandı bu dizi hat kodlaması sonrası verileri tutacak olan dizi
-dm_array(2)=-1;         % Dizinin ilk iki elemanı başlangıç için seçildi
-for i=2:length(d_array)-1    % d_array dizisi içindeki bitlerin her birinin kontrolü için for döngüsü açıldı
+% Farksal manchester hat kodlamsÄ±yla kodlayalÄ±m
+dm_array(1)=1;          % dm_array adÄ±nda yeni dizi tanÄ±mlandÄ± bu dizi hat kodlamasÄ± sonrasÄ± verileri tutacak olan dizi
+dm_array(2)=-1;         % Dizinin ilk iki elemanÄ± baÅŸlangÄ±Ã§ iÃ§in seÃ§ildi
+for i=2:length(d_array)-1    % d_array dizisi iÃ§indeki bitlerin her birinin kontrolÃ¼ iÃ§in for dÃ¶ngÃ¼sÃ¼ aÃ§Ä±ldÄ±
     u=2*i-1;                
     if d_array(i)==0        
         if dm_array(u-1)==1
@@ -48,18 +48,18 @@ for i=2:length(d_array)-1    % d_array dizisi içindeki bitlerin her birinin kont
             dm_array(u+1)=1;
             end
     end
-end                                 % Farksal manchester hat kodlaması yapıldı
+end                                 % Farksal manchester hat kodlamasÄ± yapÄ±ldÄ±
 
-    % Gürültü ekleyelim
+    % GÃ¼rÃ¼ltÃ¼ ekleyelim
 a=3.5;  
 p_signal=var(dm_array(:));
 p_noise= p_signal / 10^(a / 10);
 noise = sqrt(p_noise)* randn(size(dm_array)) ;
-gurultulu_resim = dm_array + noise;         % 3,5 dB gürültü eklendi
+gurultulu_resim = dm_array + noise;         % 3,5 dB gÃ¼rÃ¼ltÃ¼ eklendi
 
-% Kodlanmış diziyi tersine çevirme işlemini yapalım
+% KodlanmÄ±ÅŸ diziyi tersine Ã§evirme iÅŸlemini yapalÄ±m
 d_array(1)=1;
-for u=3:2:length(gurultulu_resim)/2-1    % Hat kodlaması geri çevirilirken gürültülü olduğu için karar merceği 0 değeri olur  
+for u=3:2:length(gurultulu_resim)-1    % Hat kodlamasÄ± geri Ã§evirilirken gÃ¼rÃ¼ltÃ¼lÃ¼ olduÄŸu iÃ§in karar merceÄŸi 0 deÄŸeri olur  
    i=(u+1)/2;                                                               
     if gurultulu_resim(u-1)>0 && gurultulu_resim(u)<0 && gurultulu_resim(u+1)>0
         d_array(i)=0;                   
@@ -73,18 +73,18 @@ for u=3:2:length(gurultulu_resim)/2-1    % Hat kodlaması geri çevirilirken gürül
     end
     end
     end
-end                         % Hat kodlaması bu sefer gürültülü bir şekilde tekrar geri bitlere çevrildi
-d_array1=reshape(d_array,[604,3,6000]); % Vektör şeklindeki bitler tekrar matris haline dönüştürüldü
+end                         % Hat kodlamasÄ± bu sefer gÃ¼rÃ¼ltÃ¼lÃ¼ bir ÅŸekilde tekrar geri bitlere Ã§evrildi
+d_array1=reshape(d_array,[604,3,6000]); % VektÃ¶r ÅŸeklindeki bitler tekrar matris haline dÃ¶nÃ¼ÅŸtÃ¼rÃ¼ldÃ¼
 for k=1:q,
 for j=1:n,
-d=reshape(d_array1(j,k,:),m1,n1); % tekrar diziden matris haline dönüştürüldü   
-B(:,j,k)=d*L'; % binary den desimale dönüstürerek tekrar yerine yaz
+d=reshape(d_array1(j,k,:),m1,n1); % tekrar diziden matris haline dÃ¶nÃ¼ÅŸtÃ¼rÃ¼ldÃ¼   
+B(:,j,k)=d*L'; % binary den desimale dÃ¶nÃ¼stÃ¼rerek tekrar yerine yaz
 end
 end
 
-% Bu ikili döngü bittiğinde resmin tamamı işlenmiş olur.
-% Elde edilen yeni resmi tekrar görüntüleyelim
+% Bu ikili dÃ¶ngÃ¼ bittiÄŸinde resmin tamamÄ± iÅŸlenmiÅŸ olur.
+% Elde edilen yeni resmi tekrar gÃ¶rÃ¼ntÃ¼leyelim
 B=uint8(B);
 subplot(1,2,2); image(B);% axis equal tight;
-title('Alınan Resim')
+title('AlÄ±nan Resim')
 
